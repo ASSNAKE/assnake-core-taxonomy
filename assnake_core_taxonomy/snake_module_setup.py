@@ -7,6 +7,6 @@ from assnake.utils import read_yaml
 this_dir = os.path.dirname(os.path.abspath(__file__))
 snake_module = SnakeModule(name = 'assnake-core-taxonomy', 
                            install_dir = this_dir,
-                           snakefiles = ['./metaphlan2/metaphlan2.py'],
+                           snakefiles = ['./cat_bat/cat_bat.py'],
                            invocation_commands = [mp2_invocation],
                            wc_configs = [read_yaml(os.path.join(this_dir, './metaphlan2/wc_config.yaml'))])
