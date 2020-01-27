@@ -1,0 +1,4 @@
+mp2_out:      '{fs_prefix}/{df}/taxa/{preproc}/mp2__def{version}/{sample}/{sample}.mp2'
+mp2_aligment: '{fs_prefix}/{df}/taxa/{preproc}/mp2__def{version}/{sample}/{sample}.b2'
+mp2_log:      '{fs_prefix}/{df}/taxa/{preproc}/mp2__def{version}/{sample}/log.txt'
+mp2_time:     '{fs_prefix}/{df}/taxa/{preproc}/mp2__def{version}/{sample}/time.txt'
