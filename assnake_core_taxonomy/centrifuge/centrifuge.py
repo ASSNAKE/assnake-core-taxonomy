@@ -1,5 +1,6 @@
 CENTRIFUGE_INDEX = config["centrifuge"]["index"]
 fna_db_dir = config['fna_db_dir']
+#index : '/data5/bio/databases/centrifuge/p+h+v/p+h+v'
 
 rule centr_krona:
     input:classification = 'datasets/{df}/taxa/{preproc}/centr__{params}/{sample}/{sample}_classification.tsv'
