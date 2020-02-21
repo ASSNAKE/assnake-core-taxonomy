@@ -1,12 +1,12 @@
-rule gen_metaphlan2_db:
-    input: "/mpa_v295_CHOCOPhlAn_201901.tar"
-    output: 
-        bt_index = "mpa_v295_CHOCOPhlAn_201901.1.bt2",
-        pkl = "mpa_v295_CHOCOPhlAn_201901.pkl",
-        fna_bz2 = "mpa_v295_CHOCOPhlAn_201901.fna.bz2"
-    threads: 8
-    conda: 'env_2.9.12.yaml'
-    shell: ("""""")
+# rule gen_metaphlan2_db:
+#     input: "/mpa_v295_CHOCOPhlAn_201901.tar"
+#     output: 
+#         bt_index = "mpa_v295_CHOCOPhlAn_201901.1.bt2",
+#         pkl = "mpa_v295_CHOCOPhlAn_201901.pkl",
+#         fna_bz2 = "mpa_v295_CHOCOPhlAn_201901.fna.bz2"
+#     threads: 8
+#     conda: 'env_2.9.12.yaml'
+#     shell: ("""""")
 
 rule metaphlan2:
     input:
