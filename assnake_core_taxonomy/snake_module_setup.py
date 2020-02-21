@@ -11,5 +11,5 @@ snake_module = SnakeModule(name = 'assnake-core-taxonomy',
                            install_dir = this_dir,
                            snakefiles = ['./cat_bat/cat_bat.py'],
                            invocation_commands = [mp2_invocation],
-                           initialization_commands = [mp2_initialization],
+                           initialization_commands = [mp2_init],
                            wc_configs = [read_yaml(os.path.join(this_dir, './metaphlan2/wc_config.yaml'))])
