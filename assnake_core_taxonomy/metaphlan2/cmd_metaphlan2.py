@@ -20,11 +20,11 @@ parameters = [p.split('/')[-1].replace('.json', '') for p in glob.glob('/data11/
 @click.pass_obj
 
 def mp2_invocation(config, df, preproc, samples_to_add, params):
-    # check if database initialized
-    if config.get('metaphlan2', None) is None:
-        click.secho('Metaphlan2 not initialized!', fg='red')
-        click.echo('run ' + click.style('assnake init metaphlan2', bg='blue') + ' and follow instructions')
-        exit()
+    # # check if database initialized
+    # if config.get('metaphlan2', None) is None:
+    #     click.secho('Metaphlan2 not initialized!', fg='red')
+    #     click.echo('run ' + click.style('assnake init metaphlan2', bg='blue') + ' and follow instructions')
+    #     exit()
 
     samples_to_add = [] if samples_to_add == '' else [c.strip() for c in samples_to_add.split(',')]
     df = assnake.api.loaders.load_df_from_db(df)
