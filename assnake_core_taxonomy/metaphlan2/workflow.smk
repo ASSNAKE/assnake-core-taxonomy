@@ -1,9 +1,9 @@
 rule gen_metaphlan2_db:
     input: 
-          fna = config['metaphlan2']['fna']
+          fna = config['metaphlan2']['mpa_v296_CHOCOPhlAn_201901']['fna']
     output: 
-        bt_index = config['metaphlan2']['bt2_index_base']+'.1.bt2'
-    params: bt_index_base = config['metaphlan2']['bt2_index_base']
+        bt_index = config['metaphlan2']['mpa_v296_CHOCOPhlAn_201901']['bt2_index_base']+'.1.bt2'
+    params: bt_index_base = config['metaphlan2']['mpa_v296_CHOCOPhlAn_201901']['bt2_index_base']
     threads: 24
     conda: 'env_2.9.12.yaml'
     shell: ("""bowtie2-build --threads {threads} -f {input.fna} {params}""")

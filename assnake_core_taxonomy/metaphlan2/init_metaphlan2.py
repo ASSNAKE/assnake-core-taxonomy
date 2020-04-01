@@ -2,7 +2,7 @@ import assnake.api.loaders
 import assnake 
 from tabulate import tabulate
 import click, glob, os
-from assnake.utils import download_from_url, update_config, load_config_file
+from assnake.utils import download_from_url, update_config, load_config_file, get_config_loc
 import tarfile
 import bz2
 
@@ -11,11 +11,11 @@ import bz2
 @click.pass_obj
 
 def mp2_init(config, db_location):
-
+    print(config)
     db_url = 'https://bitbucket.org/biobakery/metaphlan2/downloads/mpa_v296_CHOCOPhlAn_201901.tar'
     if db_location is None: # If no path is provided use default
-        config = load_config_file()
-        db_location = os.path.join(config['assnake_db'], 'metaphlan2')
+        _config = load_config_file()
+        db_location = os.path.join(_config['assnake_db'], 'metaphlan2')
 
     click.echo('Downloading mpa_v296_CHOCOPhlAn_201901 database to: ' + db_location)
     os.makedirs(db_location, exist_ok=True)
@@ -36,4 +36,21 @@ def mp2_init(config, db_location):
             for data in iter(lambda: bz2_h.read(100 * 1024), b''):
                 fna_h.write(data)
 
-    update_config({'metaphlan2':{'mpa_v296_CHOCOPhlAn_201901': db_location}})
+    update_config({'metaphlan2':{'mpa_v296_CHOCOPhlAn_201901': {
+        'fna': fna_file, 
+        'bt2_index_base': os.path.join(db_location, 'mpa_v296_CHOCOPhlAn_201901', 'mpa_v296_CHOCOPhlAn_201901'),
+        'pkl': os.path.join(db_location, 'mpa_v296_CHOCOPhlAn_201901', "mpa_v296_CHOCOPhlAn_201901.pkl")
+        }}})
+
+    import snakemake
+
+    status = snakemake.snakemake(os.path.join(config['config']['assnake_install_dir'], '../snake/snake_base.py'), 
+        targets=[os.path.join(db_location, 'mpa_v296_CHOCOPhlAn_201901', 'mpa_v296_CHOCOPhlAn_201901.1.bt2')], 
+        printshellcmds=True,
+        # dryrun  = True,
+        configfiles=[get_config_loc()],
+        drmaa_log_dir = config['config']['drmaa_log_dir'],
+        use_conda = True,
+        latency_wait = 120,
+        conda_prefix = config['config']['conda_dir'],
+        cores=24)
