@@ -1,33 +1,36 @@
 import pandas as pd
 import os
 
-def load_mp2_new(samples, version = '__v2.9.12', params = 'def'):
-    if not isinstance(samples, list):
-        samples = samples.to_dict(orient='records')
-    mp2_wc = '{fs_prefix}/{df}/taxa/{preproc}/mp2__def{version}/{sample}/{sample}.mp2'
+def load_metaphlan2(self, samples = None, preprocessing = 'raw'):
+    if samples is None:
+        samples = self.sample_sets[preprocessing].to_dict(orient='records')
+    else:
+        if not isinstance(samples, list):
+            samples = samples.to_dict(orient='records')
+
+
+    mp2_wc = '{fs_prefix}/{df}/taxa/mp2__def__v2.96.1/v296_CHOCOPhlAn_201901/{df_sample}/{preproc}/{df_sample}.mp2'
     mp2_all = []
     for s in samples:
         mp2_loc = mp2_wc.format(
             fs_prefix = s['fs_prefix'].rstrip('\/'),
             df = s['df'],
             preproc = s['preproc'],
-            sample = s['fs_name'],
-            version = version,
-            params = params
+            df_sample = s['df_sample']
         )
         if os.path.isfile(mp2_loc):
             try:
-                mp2 = pd.read_csv(mp2_loc, sep='\t', header = [2])
-                mp2['fs_name']=s['fs_name']
+                mp2 = pd.read_csv(mp2_loc, sep='\t', header = 3, index_col = False)
+                mp2['df_sample']=s['df_sample']
                 mp2_all.append(mp2)
             except:
                 print('ERROR LOADING:', mp2_loc)
 
     mp2_all = pd.concat(mp2_all)
-    mp2_all = mp2_all.pivot(index='fs_name', columns = '#clade_name', values = 'relative_abundance')
+    mp2_all = mp2_all.pivot(index='df_sample', columns = '#clade_name', values = 'relative_abundance')
     return mp2_all
 
-def filter_mp2(mp2, level = 'g__', zeroes_in_samples = 0.5):
+def filter_metaphlan2(mp2, level = 'g__', zeroes_in_samples = 0.5):
     levels = ['k__', 'p__', 'c__', 'o__', 'f__', 'g__', 's__', 't__']
 
     ind = levels.index(level)
