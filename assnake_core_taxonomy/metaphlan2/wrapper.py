@@ -8,6 +8,6 @@ from snakemake.shell import shell
 
 BOWTIE2DB = snakemake.config['metaphlan2'][snakemake.params.INDEX]['bt2_index_base']
 
-shell('''export LANG=en_US.UTF-8;\nexport LC_ALL=en_US.UTF-8;\nmetaphlan2.py --bowtie2db {BOWTIE2DB} -x {snakemake.params.INDEX}  \
+shell('''export PERL5LIB='';\nexport LANG=en_US.UTF-8;\nexport LC_ALL=en_US.UTF-8;\nmetaphlan2.py --bowtie2db {BOWTIE2DB} -x {snakemake.params.INDEX}  \
          {snakemake.input.r1},{snakemake.input.r2} --input_type fastq --bowtie2out {snakemake.params.b} \
          --nproc {snakemake.threads} > {snakemake.output.o}''' )
