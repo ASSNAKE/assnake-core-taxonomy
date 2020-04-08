@@ -14,7 +14,6 @@ import bz2
 
 def mp2_init(config, db_location, index_version):
 
-
     update_config({'metaphlan2':{index_version: {
         'bt2_index_base': os.path.join(db_location, index_version),
         }}})
