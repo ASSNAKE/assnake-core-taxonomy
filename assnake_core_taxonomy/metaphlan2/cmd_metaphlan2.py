@@ -17,7 +17,7 @@ additional_options = [
 @add_options(additional_options)
 @click.pass_obj
 def mp2_invocation(config, **kwargs):
-    wc_str = '{fs_prefix}/{df}/taxa/mp2__{params}__v2.96.1/v296_CHOCOPhlAn_201901/{df_sample}/{preproc}/{df_sample}.mp2'
+    wc_str = '{fs_prefix}/{df}/taxa/mp2__{params}__v3.0/v296_CHOCOPhlAn_201901/{df_sample}/{preproc}/{df_sample}.mp2'
     sample_set, sample_set_name = generic_command_individual_samples(config,  **kwargs)
     config['requests'] += generate_result_list(sample_set, wc_str, **kwargs)
     config['requested_results'] += [{'result': 'metaphlan2', 'sample_set': sample_set}]
