@@ -1,22 +1,31 @@
 import pandas as pd
 import os
 
-def load_metaphlan2(self, samples = None, preprocessing = 'raw'):
+def load_metaphlan2(self, samples = None, preprocessing = 'raw', version = '3.0', params = 'tt', proprotion = None):
     if samples is None:
         samples = self.sample_sets[preprocessing].to_dict(orient='records')
     else:
         if not isinstance(samples, list):
             samples = samples.to_dict(orient='records')
 
+    kwargs = dict(
+        version = 3.0, 
+        params = 'tt',
+    )
 
-    mp2_wc = '{fs_prefix}/{df}/taxa/mp2__def__v2.96.1/v296_CHOCOPhlAn_201901/{df_sample}/{preproc}/{df_sample}.mp2'
+    if proprotion is None or proprotion == 1.0:
+        mp2_wc = '{fs_prefix}/{df}/taxa/mp2__{params}__v{version}/v296_CHOCOPhlAn_201901/{df_sample}/{preproc}/{df_sample}.mp2'
+    else:
+        mp2_wc = '{fs_prefix}/{df}/taxa/mp2__{params}__v{version}/v296_CHOCOPhlAn_201901/{df_sample}/{preproc}/{df_sample}_sbsmpl{proprotion}.mp2'
+        kwargs.update({'proprotion': proprotion})
     mp2_all = []
     for s in samples:
         mp2_loc = mp2_wc.format(
             fs_prefix = s['fs_prefix'].rstrip('\/'),
             df = s['df'],
             preproc = s['preproc'],
-            df_sample = s['df_sample']
+            df_sample = s['df_sample'],
+            **kwargs
         )
         if os.path.isfile(mp2_loc):
             try:
@@ -25,6 +34,9 @@ def load_metaphlan2(self, samples = None, preprocessing = 'raw'):
                 mp2_all.append(mp2)
             except:
                 print('ERROR LOADING:', mp2_loc)
+        else:
+            pass
+            # print(mp2_loc)
 
     mp2_all = pd.concat(mp2_all)
     mp2_all = mp2_all.pivot(index='df_sample', columns = '#clade_name', values = 'relative_abundance')

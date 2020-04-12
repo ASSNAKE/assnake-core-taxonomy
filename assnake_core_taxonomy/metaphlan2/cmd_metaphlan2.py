@@ -17,13 +17,29 @@ additional_options = [
 @add_options(additional_options)
 @click.pass_obj
 def mp2_invocation(config, **kwargs):
-    # # check if database initialized
-    # if config.get('metaphlan2', None) is None:
-    #     click.secho('Metaphlan2 not initialized!', fg='red')
-    #     click.echo('run ' + click.style('assnake init metaphlan2', bg='blue') + ' and follow instructions')
-    #     exit()
-
-    wc_str = '{fs_prefix}/{df}/taxa/mp2__def__v2.96.1/v296_CHOCOPhlAn_201901/{df_sample}/{preproc}/{df_sample}.mp2'
+    wc_str = '{fs_prefix}/{df}/taxa/mp2__{params}__v2.96.1/v296_CHOCOPhlAn_201901/{df_sample}/{preproc}/{df_sample}.mp2'
     sample_set, sample_set_name = generic_command_individual_samples(config,  **kwargs)
     config['requests'] += generate_result_list(sample_set, wc_str, **kwargs)
+    config['requested_results'] += [{'result': 'metaphlan2', 'sample_set': sample_set}]
+
+parameters = [p.split('/')[-1].replace('.json', '') for p in glob.glob('/data11/bio/databases/ASSNAKE/params/mp2/*.json')]
+additional_options = [
+    click.option(
+        '--params', 
+        help='Parameters id to use. Available parameter sets: ' + str(parameters), 
+        required=False, 
+        default = 'def'
+        )
+]
+@click.command('metaphlan2-rarefication', short_help='Taxonomic annoatation based on marker genes')
+@add_options(sample_set_construction_options)
+@add_options(additional_options)
+@click.pass_obj
+def mp2_rare_invocation(config, **kwargs):
+    
+    sample_set, sample_set_name = generic_command_individual_samples(config,  **kwargs)
+    props = ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9']
+    for p in props:
+        wc_str = '{{fs_prefix}}/{{df}}/taxa/mp2__{{params}}__v2.96.1/v296_CHOCOPhlAn_201901/{{df_sample}}/{{preproc}}/{{df_sample}}_sbsmpl{prop}.mp2'.format(prop = p)
+        config['requests'] += generate_result_list(sample_set, wc_str, **kwargs)
     config['requested_results'] += [{'result': 'metaphlan2', 'sample_set': sample_set}]
