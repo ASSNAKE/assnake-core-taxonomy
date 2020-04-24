@@ -9,8 +9,8 @@ def load_metaphlan2(self, samples = None, preprocessing = 'raw', version = '3.0'
             samples = samples.to_dict(orient='records')
 
     kwargs = dict(
-        version = 3.0, 
-        params = 'tt',
+        version = version, 
+        params = params,
     )
 
     if proprotion is None or proprotion == 1.0:
