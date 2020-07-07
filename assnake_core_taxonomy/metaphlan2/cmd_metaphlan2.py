@@ -1,13 +1,13 @@
 import click, glob, os
 from assnake.core.sample_set import generic_command_individual_samples, generate_result_list
-from assnake.cli.cli_utils import sample_set_construction_options, add_options
+from assnake.core.command_builder import sample_set_construction_options, add_options
 from assnake.core.result import Result
 
 parameters = [p.split('/')[-1].replace('.json', '') for p in glob.glob('/data11/bio/databases/ASSNAKE/params/mp2/*.json')]
 additional_options = [
     click.option(
         '--params', 
-        help='Parameters id to use. Available parameter sets: ' + str(parameters), 
+        help='Preset to use. Available presets: ' + str(parameters), 
         required=False, 
         default = 'def'
         ),

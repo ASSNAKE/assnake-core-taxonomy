@@ -1,7 +1,7 @@
 
 BOWTIE2DB = config['metaphlan2']['mpa_v296_CHOCOPhlAn_201901']['bt2_index_base']
 
-BOWTIE2DB = config['metaphlan2']['mpa_v30_CHOCOPhlAn_201901']['bt2_index_base']
+# BOWTIE2DB = config['metaphlan2']['mpa_v30_CHOCOPhlAn_201901']['bt2_index_base']
 
         
 rule metaphlan3:
@@ -9,7 +9,7 @@ rule metaphlan3:
         r1 = wc_config['fastq_gz_R1_wc'],
         r2 = wc_config['fastq_gz_R2_wc'] 
     output:
-        o     = '{fs_prefix}/{df}/taxa/mp3__{params}__v3.0.0/{database}/{df_sample}/{preproc}/{df_sample}.tsv',
+        o     = '{fs_prefix}/{df}/taxa/mp3__{params}__v3.0.0/{database}/{df_sample}/{preproc}/{df_sample}.rel_ab_w_read_stats.tsv',
         b2out = '{fs_prefix}/{df}/taxa/mp3__{params}__v3.0.0/{database}/{df_sample}/{preproc}/{df_sample}.bowtie2.bz2',
     threads: 8
     params:

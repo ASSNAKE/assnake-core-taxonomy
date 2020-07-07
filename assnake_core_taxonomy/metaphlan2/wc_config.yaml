@@ -1,3 +1,6 @@
+metaphlan_wc: '{fs_prefix}/{df}/taxa/mp2__{params}__{version}/{database}/{df_sample}/{preproc}/{df_sample}.rel_ab_w_read_stats.tsv'
+
+
 mp2_out:      '{fs_prefix}/{df}/taxa/mp2__{params}__{version}/{database}/{df_sample}/{preproc}/{df_sample}.mp2'
 mp2_aligment: '{fs_prefix}/{df}/taxa/mp2__{params}__{version}/{database}/{df_sample}/{preproc}/{df_sample}.b2'
 mp2_log:      '{fs_prefix}/{df}/taxa/mp2__{params}__{version}/{database}/{df_sample}/{preproc}/log.txt'

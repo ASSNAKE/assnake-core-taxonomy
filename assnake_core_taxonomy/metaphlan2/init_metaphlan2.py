@@ -2,7 +2,9 @@ import assnake.api.loaders
 import assnake 
 from tabulate import tabulate
 import click, glob, os
-from assnake.utils import download_from_url, update_config, load_config_file, get_config_loc
+from assnake.utils.general import download_from_url
+from assnake.core.config import update_config
+
 import tarfile
 import bz2
 
