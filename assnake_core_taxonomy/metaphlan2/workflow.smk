@@ -24,10 +24,12 @@ rule metaphlan3_relab:
         b2out = '{fs_prefix}/{df}/taxa/mp3__{preset}__{version}/{database}/{df_sample}/{preproc}/{df_sample}.bowtie2.bz2',
     output:
         o     = '{fs_prefix}/{df}/taxa/mp3__{preset}__{version}/{database}/{df_sample}/{preproc}/{df_sample}.rel_ab.tsv'
+    params:
+        INDEX = 'mpa_{database}'
     threads: 8
     conda: 'env_3.0.0.yaml'
     shell: ('''metaphlan {input.b2out} --input_type bowtie2out \
-       --add_viruses -t rel_ab --nproc {threads} -o {output.o};''')
+       -x {params.INDEX} --bowtie2db {BOWTIE2DB} --add_viruses -t rel_ab --nproc {threads} -o {output.o};''')
 
 
 rule metaphlan2_from_sam:
